@@ -12,44 +12,60 @@ using namespace std;
 
 using solver::solve, solver::RealVariable, solver::ComplexVariable;
 ///Real Variable...
-TEST_CASE("Real Variable Operator+/Operator- :  ()+/-x = +/-(Random Number) ")
+TEST_CASE("1")
 {
     RealVariable x;
-            CHECK(solve(x == 1) == 1);
-            CHECK(solve(x+2 == 1) == -1);
-            CHECK(solve(15+x-1 == 1) == -13);
-            CHECK(solve(15+x-1 == 1+16) == 3);
-            CHECK(solve(x+x+x == 21) == 7);
-            CHECK(solve(x+x+x == 22+x) == 11);
-            CHECK(solve(x+x+2 == 12+x) == 10);
-            CHECK(solve(1*x == 0) == 0);
-            CHECK(solve(2*x*3 == 6) == 1);
-            CHECK(solve(2*2*x*2 == 12) == 2);
-            CHECK(solve(x+x+2 == 12+x) == 10);
-            CHECK(solve(x*x == 0) == 0);
-            CHECK(solve(x*x*2 == 72) == 6)  ;
-}
+            CHECK(solve(3*x==6)==2);
+            CHECK(solve(8*x==64)==8);
+            CHECK(solve(3+x==6)==3);
+            CHECK(solve(x-2==1)==3);
+            CHECK(solve(6/x==1)==6);
 
-TEST_CASE("Real Variable Operator * : ()*x +/- () == +/-/*(Random Number)")
+            CHECK(solve(3*x+12==-6)==-6);
+            CHECK(solve(8*x+2==10)==1);
+            CHECK(solve(3+x+4+x==15)==8);
+            CHECK(solve(3*x-15==0)==5);
+            CHECK(solve(x/6==0)==0);
+
+            CHECK(solve(4*x+12==-6)==-6);
+            CHECK(solve(12*x+2==10)==1);
+            CHECK(solve(2+x+4+x==15)==8);
+            CHECK(solve(7*x-15==0)==5);
+            CHECK(solve(x/6==0)==0);
+}
+TEST_CASE("2-Double"){
+    RealVariable x;
+            CHECK(solve(x*2-4 == 10)==7);
+            CHECK(((solve((x^2)+7 == 16)==3) || (solve((x^2)+7 == 16)==-3)));
+            CHECK(solve(x*-1 == 10)==-10);
+            CHECK(((solve((x^2)+x*2-3 == 0)==1) || (solve((x^2)+x*2-3 == 0)==-3)));
+            CHECK(((solve((x^2)*2-x*5+4 == (x^2)-2)==3) || (solve((x^2)*2-x*5+4 == (x^2)-2)==2)));
+            CHECK(solve(x*9-5 == x*8+5)==10);
+            CHECK(solve(x*-4+2 == 0)==0.5);
+            CHECK(solve(x*2+8 == x*-2+6)==-0.5);
+            CHECK(solve(x*-6 == 0)==0);
+}
+TEST_CASE("3")
 {
     RealVariable x;
 
-            CHECK(solve(1*x == 0) == 0);
-            CHECK(solve(2*x*3 == 6) == 1);
-            CHECK(solve(2*2*x*2 == 12) == 2);
-            CHECK(solve(x == 1) == 1);
-            CHECK(solve(x+2 == 1) == -1);
-            CHECK(solve(15+x-1 == 1) == -13);
-            CHECK(solve(15+x-1 == 1+16) == 3);
-            CHECK(solve(x+x+x == 21) == 7);
-            CHECK(solve(x+x+x == 22+x) == 11);
-            CHECK(solve(x+x+2 == 12+x) == 10);
-            CHECK(solve(x*x == 0) == 0);
-            CHECK(solve(x*x*2 == 72) == 6)  ;
+            CHECK(solve(3*(x^2)-6*x+9==0)==1);
+            CHECK(solve(((x^2)-4)==0)==2);
+            CHECK(solve((9*(x^2)-6*x-3)==0)==1);
+
+            CHECK(solve(3*(x^2)-5*x+9==x)==1);
+            CHECK(solve(((x^2)-3)==1)==2);
+            CHECK(solve((9*(x^2)-5*x-2)==x+1)==1);
+
+
+            CHECK(solve(((x^2)-4)==0)==2);
+            CHECK(solve((8*(x^2)-5*x-2)==(x^2)+x+1)==1);
+
+            CHECK(solve((x^2)+(x^2)+(x^2)==3)==0);
 
 }
 
-TEST_CASE("Real Variable Operator MIX")
+TEST_CASE("4- MIX")
 {
     RealVariable x;
             CHECK(solve(2*(x^2) -64==0 ) == 5.6568542);
@@ -98,7 +114,10 @@ TEST_CASE("Real Variable Operator MIX")
 
 }
 
-TEST_CASE("Complex Variable Operator MIX") {
+
+///*********************************************
+///complex Variable
+TEST_CASE("5- Complex  MIX") {
     using namespace complex_literals;
     ComplexVariable y;
 
@@ -120,40 +139,40 @@ TEST_CASE("Complex Variable Operator MIX") {
 
 }
 
-TEST_CASE("throws"){
-    RealVariable x;
-    CHECK_THROWS_AS(solve((x^2) +2 == -2*x), std::exception);
-    CHECK_THROWS_AS(solve((x^2) + 6*x  == -13), std::exception);
-    CHECK_THROWS_AS(solve((x^2) - 8*x +17 == 0), std::exception);
-    CHECK_THROWS(solve(x/0 == 0));
-    CHECK_THROWS(solve(10/x == 0));
-    CHECK_THROWS(solve(x/(1-1) == -1));
-    CHECK_THROWS_AS(solve((x^2) -2*x +26 == 0), std::exception);
-    CHECK_THROWS(solve((x ^ 2) == -8));
-    CHECK_THROWS(solve((x ^ 2) == -6));
-    CHECK_THROWS(solve((x ^ 2) == -1));
-    CHECK_THROWS(solve((x ^ 2) == -2));
-    CHECK_THROWS(solve((x ^ 2) == -4));
-    CHECK_THROWS_AS(solve((x^2)- 7*x + 14 == 2*x), std::exception);
-    CHECK_THROWS_AS(solve((x^2) -2*x + 5 == 2*x), std::exception);
-    CHECK_THROWS(solve((x^2)==-16));
+TEST_CASE("6-throws")
+{
 
-    CHECK_THROWS(solve(2*(x^2)-3*x+4 == 0));
-    CHECK_THROWS(solve(-1*x+2 == -1*x+4));
-    CHECK_THROWS(solve(3*x/0.5*x-6 == 0));
-    CHECK_THROWS((solve(5 * (x ^ 2) + 6 * x + 7 == 0)));
-    CHECK_THROWS((solve(3 * (x ^ 2) + 4 * x + 5 == 0)));
-    CHECK_THROWS((solve((x ^ 2) + 2 * x + 3 == 0)));
+        RealVariable x;
+        CHECK_THROWS(solve((x^2)==-16));
+        CHECK_THROWS(solve(2*(x^2)-3*x+4 == 0));
+        CHECK_THROWS(solve(-1*x+2 == -1*x+4));
+        CHECK_THROWS(solve(3*x/0.5*x-6 == 0));
+        CHECK_THROWS(solve((x^2)==-20));
+        CHECK_THROWS(solve((x^3)+5==-1));
+        CHECK_THROWS(solve((x^2)+14==-6));
+        CHECK_THROWS(solve(14+(x^3)==-150));
+        CHECK_THROWS(solve(32+(x^2)==-2));
+        CHECK_THROWS(solve((x^3)==-5));
+
+        ComplexVariable y;
+        CHECK_THROWS(solve((y^2)/0+2i == 5));
+        CHECK_THROWS(solve(y/0 == 0));
+        CHECK_THROWS(solve(y/(1-1) == -1));
+
+
 }
-TEST_CASE("Extra") {
+TEST_CASE("7-Extra")
+{
     ComplexVariable x;
-            CHECK(((solve((x ^ 2) == 6.5025) == complex<double>(2.55, 0)) ||
-                   (solve((x ^ 2) == 6.5025f) == complex<double>(-2.55, 0))));
-            CHECK(((solve((x ^ 2) == 1.5625) == complex<double>(1.25, 0)) ||
-                   (solve((x ^ 2) == 1.5625) == complex<double>(-1.25, 0))));
-            CHECK(((solve((x ^ 2) == -6.5025f) == 2.55i) || (solve((x ^ 2) == -6.5025f) == -2.55i)));
-            CHECK(((solve((x ^ 2) == -1.5625) == 1.25i) || (solve((x ^ 2) == -1.5625) == -1.25i)));
-
-
+    CHECK(((solve((x ^ 2) == 6.5025) == complex<double>(2.55, 0)) ||
+           (solve((x ^ 2) == 6.5025f) == complex<double>(-2.55, 0))));
+    CHECK(((solve((x ^ 2) == 1.5625) == complex<double>(1.25, 0)) ||
+           (solve((x ^ 2) == 1.5625) == complex<double>(-1.25, 0))));
+    CHECK(((solve((x ^ 2) == -6.5025f) == 2.55i) || (solve((x ^ 2) == -6.5025f) == -2.55i)));
+    CHECK(((solve((x ^ 2) == -1.5625) == 1.25i) || (solve((x ^ 2) == -1.5625) == -1.25i)));
 
 }
+
+
+
+

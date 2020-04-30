@@ -2,8 +2,6 @@
 // Created by Ginton on 30/04/2020.
 //
 
-
-
 #include"solver.hpp"
 #include<iostream>
 #include <math.h>
