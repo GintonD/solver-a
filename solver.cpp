@@ -99,9 +99,23 @@ RealVariable solver::operator - (RealVariable const & var1 , RealVariable const 
     return ans;
 
 }
-
-RealVariable solver::operator - (RealVariable const & var , double num)
+RealVariable solver::operator - (double num , RealVariable const & var)
 {
+    RealVariable ans;
+
+
+    return ans;
+}
+RealVariable solver::operator - (RealVariable const & y , double x)
+{
+    RealVariable *c = new RealVariable();
+
+    c->a = y.a;
+    c->b = y.b;
+    c->c = y.c -x;
+    return *c;
+
+
     RealVariable ans;
 
     return ans;
@@ -115,29 +129,51 @@ RealVariable solver::operator + (double num , RealVariable const & var)
     return ans;
 }
 
-RealVariable solver::operator - (double num , RealVariable const & var)
+RealVariable solver::operator^(const RealVariable &var, const RealVariable &var2)
 {
-    RealVariable ans;
-
-    return ans;
+    return RealVariable();
 }
 
-RealVariable solver::operator ^ (RealVariable const & var , int b)
+RealVariable solver::operator ^ (RealVariable const & _re , int b)
 {
     if(b > 2)
         throw std::invalid_argument("ber can't be greater than 2\n");
+    RealVariable *c = new RealVariable();
+ if (b==2) {
+     c->a = 1;
+     c->b = _re.b-1;  // do b to zero
+     c->c = _re.c;
+ }
+    return *c;
 
-    RealVariable ans;
 
-    return ans;
+
+
 }
 
-RealVariable solver::operator * (double num , RealVariable const & var)
+RealVariable solver::operator * (double t , RealVariable const & _re)
 {
-    RealVariable ans;
+    RealVariable *c = new RealVariable();
+    c->a= t* _re.a;
+    c->b= t* _re.b;
+    c->c = t * _re.c;
+    return *c;
 
-    return ans;
+}
+RealVariable solver::operator*(const RealVariable &var1, const double &var2)
+{
 
+    return RealVariable();
+}
+
+RealVariable solver::operator*(const int &t, const RealVariable &_re)
+{
+    RealVariable *c = new RealVariable();
+    c->a= t* _re.a;
+    c->b= t* _re.b;
+    c->c = t * _re.c;
+    return *c;
+    return RealVariable();
 }
 
 RealVariable solver::operator / (RealVariable const & var , double num)
@@ -148,11 +184,13 @@ RealVariable solver::operator / (RealVariable const & var , double num)
 
 }
 
-RealVariable solver::operator == (RealVariable const & var , double num)
+RealVariable solver::operator == (RealVariable const & y , double x)
 {
-    RealVariable ans;
-
-    return ans;
+    RealVariable *c = new RealVariable();
+    c->a = y.a;
+    c->b = y.b;
+    c->c = y.c -x;
+    return *c;
 
 }
 
@@ -166,9 +204,13 @@ RealVariable solver::operator == (double num , RealVariable const & var)
 
 RealVariable solver::operator == (RealVariable const & var1 , RealVariable const & var2)
 {
-    RealVariable ans;
+    RealVariable *c = new RealVariable();
+c->a = var1.a - var2.a;
+    c->b = var1.b - var2.b;
+    c->c = var1.c - var2.c;
 
-    return ans;
+
+    return *c;
 
 }
 
@@ -182,25 +224,12 @@ RealVariable solver::operator*(const RealVariable &var1, const int &var2)
     return RealVariable();
 }
 
-RealVariable solver::operator^(const RealVariable &var, const RealVariable &var2)
-{
-    return RealVariable();
-}
 
 RealVariable solver::operator/(const double &var, RealVariable num)
 {
     return RealVariable();
 }
 
-RealVariable solver::operator*(const RealVariable &var1, const double &var2)
-{
-    return RealVariable();
-}
-
-RealVariable solver::operator*(const int &var2, const RealVariable &var1)
-{
-    return RealVariable();
-}
 
 
 ComplexVariable::ComplexVariable()
@@ -356,11 +385,16 @@ ComplexVariable solver::operator==(double num, const ComplexVariable &var)
 
 double solver::solve(RealVariable var)
 {
+    double x;
+    if (var.a != 0){
+        x = (-(var.b) + sqrt(pow(var.b, 2) - 4 * var.a * var.c)) / 2;
+    }
+else
+    x = - (var.c/var.b);
 
-    ComplexVariable ans;
-
-    return 0.0;
+    return x;
 }
+
 
 std::complex<double> solver::solve(ComplexVariable var)
 {
