@@ -203,6 +203,9 @@ RealVariable solver::operator*(const int &t, const RealVariable &_re)
 
 RealVariable solver::operator / (RealVariable const & var , double num)
 {
+   if (num==0)
+       throw std::invalid_argument("Math Ero 2\n");
+
     RealVariable *ans = new RealVariable();
     ans->a = var.a/num;
     ans->b = var.b/num;
@@ -431,15 +434,19 @@ ComplexVariable solver::operator==(double num, const ComplexVariable &var)
 
 double solver::solve(RealVariable var)
 {
-    double x;
+    double x=0;
     if (var.a != 0){
     double sqrtSolve = pow(var.b, 2) - 4 * var.a * var.c;
     if (sqrtSolve<0)
         throw std::invalid_argument("no solution\n");
 
-        x = (-(var.b) + sqrt(sqrtSolve)) / 2;
+        x = (-(var.b) + sqrt(sqrtSolve)) / (2*var.a);
     }
 else
+    if(var.a==0 && var.b==0){
+        throw std::invalid_argument("Math Error\n");
+    }
+    else
     x = - (var.c/var.b);
 
     return x;
