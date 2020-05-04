@@ -79,15 +79,14 @@ RealVariable solver::operator + (RealVariable const & rhs , RealVariable const &
 
 }
 
-RealVariable solver::operator + (RealVariable const & lhs, double rhs)
+RealVariable solver::operator + (RealVariable const & lhs, double num)
 {
     RealVariable ret;
-    int Int = (int) rhs;
-    //int fraction = saparate(rhs);
+ 
 
-    ret.a  =  lhs.a + Int;
+    ret.a  =  lhs.a ;
     ret.b  =  lhs.b ;
-    ret.c =  lhs.c;
+    ret.c =  lhs.c+num;
     return ret;
 }
 
@@ -142,8 +141,9 @@ RealVariable solver::operator + (double num , RealVariable const & var)
 
 RealVariable solver::operator^(const RealVariable &var, const RealVariable &var2)
 {
-
-    return RealVariable();
+    //Not working
+    RealVariable *c;
+    return *c;
 }
 
 RealVariable solver::operator ^ (RealVariable const & _re , int b)
@@ -245,24 +245,32 @@ c->a = var1.a - var2.a;
 
 RealVariable solver::operator*(const RealVariable &var1, const RealVariable &var2)
 {
-    RealVariable *c = new RealVariable();
-    if (var1.a ==var2.a)
-        throw std::invalid_argument("ber can't be greater than 2\n");
-    c->b = var1.b - var2.b;
-    c->c = var1.c - var2.c;
-
-
-    return *c;
+    if ((var1.a!=0 &&var2.a!=0)  ||(var1.a!=0 &&var2.b!=0) || (var1.b!=0 &&var2.a!=0))
+    throw std::invalid_argument("ber can't be greater than 2\n");
+    // (only (bx+c)*(bx+c)
+    RealVariable *var3 = new RealVariable();
+    var3->a = var1.b * var2.b;
+    var3->b = var1.b*var2.b + var1.b*var1.c;
+    var3->c = var1.c*var2.c;
+    return *var3;
 }
 
-RealVariable solver::operator*(const RealVariable &var1, const int &var2)
+RealVariable solver::operator*(const RealVariable &var, const int &num)
 {
-    return RealVariable();
-}
+    RealVariable *ans = new RealVariable();
+    ans->a = var.a*num;
+    ans->b = var.b*num;
+    ans->c = var.c*num;
 
+    return *ans;
+
+}
+//back
 
 RealVariable solver::operator/(const double &var, RealVariable num)
 {
+    RealVariable *ans = new RealVariable();
+
     return RealVariable();
 }
 
