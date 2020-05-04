@@ -297,141 +297,198 @@ ComplexVariable ComplexVariable::operator()(ComplexVariable& var)
 
 }
 
-ComplexVariable solver::operator + (ComplexVariable const & var1 , ComplexVariable const & var2)
-{
-    ComplexVariable ans;
-
-    return ans;
-}
 
 ComplexVariable solver::operator - (ComplexVariable const & var1 , ComplexVariable const & var2)
 {
-    ComplexVariable ans;
-
-    return ans;
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = var1.a-var2.a;
+    ans->b = var1.b-var2.b;
+    ans->c = var1.c-var2.c;
+    return *ans;
 
 }
-
-
-ComplexVariable solver::operator + (ComplexVariable const & var , double num)
+ComplexVariable solver::operator + (ComplexVariable const & var1 , ComplexVariable const & var2)
 {
-    ComplexVariable ans;
 
-    return ans;
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = var1.a+var2.a;
+    ans->b = var1.b+var2.b;
+    ans->c = var1.c+var2.c;
 
+    return *ans;
 }
 
-ComplexVariable solver::operator - (ComplexVariable const & var , double num)
+
+ComplexVariable solver::operator + (ComplexVariable const & var1 , double num)
 {
-    ComplexVariable ans;
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = var1.a;
+    ans->b = var1.b;
+    ans->c = var1.c+num;
 
-    return ans;
+    return *ans;
+
 }
-
-ComplexVariable solver::operator + (ComplexVariable const & var , std::complex<double> num)
+ComplexVariable solver::operator + (ComplexVariable const & var1 , std::complex<double> num)
 {
-    ComplexVariable ans;
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = var1.a;
+    ans->b = var1.b;
+    ans->c = var1.c+num;
 
-    return ans;
-
+    return *ans;
 }
-
-ComplexVariable solver::operator - (ComplexVariable const & var , std::complex<double> num)
+ComplexVariable solver::operator + (double num , ComplexVariable const & var1)
 {
-    ComplexVariable ans;
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = var1.a;
+    ans->b = var1.b;
+    ans->c = var1.c+num;
 
-    return ans;
+    return *ans;
 
 }
 
-ComplexVariable solver::operator + (double num , ComplexVariable const & var)
+ComplexVariable solver::operator - (ComplexVariable const & var1 , double num) {
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = var1.a;
+    ans->b = var1.b;
+    ans->c = var1.c - num;
+
+    return *ans;
+}
+
+
+ComplexVariable solver::operator - (ComplexVariable const & var1 , std::complex<double> num)
 {
-    ComplexVariable ans;
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = var1.a;
+    ans->b = var1.b;
+    ans->c = var1.c - num;
 
-    return ans;
+    return *ans;
+
+
 
 }
-
 
 ComplexVariable solver::operator ^ (ComplexVariable const & var , int b)
 {
-    ComplexVariable ans;
 
-    return ans;
+    if(b > 2)
+        throw std::invalid_argument("ber can't be greater than 2\n");
+    ComplexVariable *c = new ComplexVariable();
+    if (b==0){
+        c->a = 0;
+        c->b = 0;  // do b to zero
+        c->c = 1;
+    }
+    if (b==1)
+        return var;
+    if (b==2) {
+        c->a = 1;
+        c->b = 0;  // do b to zero
+        c->c = var.c;
+    }
+
+    return *c;
+
+
 }
 
-ComplexVariable solver::operator * (double num , ComplexVariable const & var)
+ComplexVariable solver::operator * (double num , ComplexVariable const & var1)
 {
-    ComplexVariable ans;
-
-    return ans;
-
-}
-
-ComplexVariable solver::operator / (ComplexVariable const & var , double num)
-{
-    ComplexVariable ans;
-
-    return ans;
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = num*var1.a;
+    ans->b = var1.b*num;
+    ans->c = var1.c*num;
+    return *ans;
 
 }
-
-ComplexVariable solver::operator == (ComplexVariable const & var1 , ComplexVariable const & var2)
-{
-    ComplexVariable ans;
-
-    return ans;
-
-}
-
-ComplexVariable solver::operator == (ComplexVariable const & var , double num)
-{
-    ComplexVariable ans;
-
-    return ans;
-
-}
-
-ComplexVariable solver::operator+(std::complex<double> num, const ComplexVariable &var)
-{
-    ComplexVariable ans;
-
-    return ans;
-}
-
-ComplexVariable solver::operator-(std::complex<double> num, const ComplexVariable &var)
-{
-    ComplexVariable ans;
-
-    return ans;
-}
-
-ComplexVariable solver::operator-(double num, const ComplexVariable &var)
-{
-    return ComplexVariable();
-}
-
-ComplexVariable solver::operator^(const ComplexVariable &var, const ComplexVariable &var2)
-{
-    return ComplexVariable();
-}
-
 ComplexVariable solver::operator*(const ComplexVariable &var, double num)
 {
-    return ComplexVariable();
+    return num*var;
 }
 
 ComplexVariable solver::operator*(const ComplexVariable &var, const ComplexVariable &var2)
 {
     return ComplexVariable();
 }
+ComplexVariable solver::operator / (ComplexVariable const & var1 , double num)
+{
+    if (num==0)
+        throw std::invalid_argument("Math Error\n");
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = var1.a/num;
+    ans->b = var1.b/num;
+    ans->c = var1.c/num;
+    return *ans;
+
+}
+
+ComplexVariable solver::operator == (ComplexVariable const & var1 , ComplexVariable const & var2)
+{
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = var1.a-var2.a;
+    ans->b =  var1.b-var2.b;
+    ans->c = var1.c-var2.c;
+    return *ans;
+
+}
+
+ComplexVariable solver::operator == (ComplexVariable const & var1 , double num)
+{
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = var1.a;
+    ans->b =  var1.b;
+    ans->c = var1.c-num;
+    return *ans;
+
+
+
+
+}
+
+ComplexVariable solver::operator+(std::complex<double> num, const ComplexVariable &var)
+{
+
+
+    return var+num;
+}
+
+ComplexVariable solver::operator-(std::complex<double> num, const ComplexVariable &var1)
+{
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = -var1.a;
+    ans->b =  -var1.b;
+    ans->c = num-var1.c;
+    return *ans;
+}
+
+ComplexVariable solver::operator-(double num, const ComplexVariable &var1)
+{
+    ComplexVariable *ans = new ComplexVariable();
+    ans->a = -var1.a;
+    ans->b =  -var1.b;
+    ans->c = num-var1.c;
+    return *ans;
+}
+//Remove
+ComplexVariable solver::operator^(const ComplexVariable &var, const ComplexVariable &var2)
+{
+    return ComplexVariable();
+}
+
+
 
 ComplexVariable solver::operator==(double num, const ComplexVariable &var)
 {
     return ComplexVariable();
 }
 
-
+ComplexVariable operator ^ (ComplexVariable const & var , int pow){
+    return ComplexVariable();
+}
 double solver::solve(RealVariable var)
 {
     double x=0;
@@ -453,9 +510,30 @@ else
 }
 
 
-std::complex<double> solver::solve(ComplexVariable var)
-{
-    return 0i;
+complex<double> solver::solve(ComplexVariable x) {
+    complex<double> ans;
+    if (x.a == 0.0) {
+        if(x.b == 0.0) throw std::invalid_argument("cant diving by 0");
+        ans = -(x.c) / x.b;
+        return ans;
+    } else if (x.a != 0.0) {
+        complex<double> delta = pow(x.b, 2.0) - 4.0 * x.a * x.c;
+        if (delta.imag() == 0) {
+            if (delta.real() > 0.0) {
+                ans = (-x.b + sqrt(delta)) / 2.0 * x.a;
+                return ans;
+            } else if (delta == 0.0) {
+                ans = (-x.b) / 2.0 * x.a;
+                return ans;
+            } else if (delta.real() < 0.0) {
+                ans = ((-x.b)+sqrt(delta))/(2.0*x.a);
+                return ans;
+            }
+        }
+
+    }
+    return 0.0;
 }
+
 
 
