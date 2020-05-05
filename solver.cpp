@@ -122,7 +122,7 @@ RealVariable solver::operator - (RealVariable const & y , double num)
     c->a = y.a;
     c->b = y.b;
     return *c;
-    c->c = y.c -x;
+    c->c = y.c -num;
 }
 
 
